@@ -37,7 +37,6 @@ body {
 }
 .bx_todo_content {
     @include border-radius(5px);
-    display: none;
     margin: 10px;
     padding: 0;
     border: 1px solid #aebac5;
