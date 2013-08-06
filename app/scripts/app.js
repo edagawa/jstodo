@@ -18,8 +18,8 @@ $(deleteAllBtn).css('opacity', '.6').attr('disabled', true);
 
 
 //TODOの追加
-if($(js_input_todo).val() !== '') {
-	$('#js_add_todo').on('click', function(){
+$('#js_add_todo').on('click', function(){
+	if($(js_input_todo).val() !== '') {
 		//要素の変数設定
 		var getTime = new Date(),
 			getYear = getTime.getFullYear(),
@@ -45,13 +45,15 @@ if($(js_input_todo).val() !== '') {
 		//要素を生成
 		$(todoElm).children('.js_btn_up').on('click', function() {
 			// //ボタンを上に移動する
-	console.log($(this));
-		}).end().prependTo(js_todo_content)
+console.log($(this).parent());
+console.log($(this).parent().next());
+			$(this).parent().insertAfter('#js_todo_content');
+		}).end().prependTo(js_todo_content);
 
 		//全削除ボタンのアクティブ化
 		$(deleteAllBtn).css('opacity', '1').attr('disabled', false);
-	});
-}
+	}
+});
 
 // $addTodo.on('click', function(){
 // 	//ul要素を表示
