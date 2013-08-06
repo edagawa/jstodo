@@ -5,6 +5,7 @@ body {
     background: #fefee9;
     color: #333;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
 }
 
 // Layout
@@ -12,6 +13,8 @@ body {
     margin: 0 auto;
     padding-bottom: 10px;
     width: 650px;
+    border: 1px solid #ccc;
+    border-top: none;
     background-color: #fff;
 }
 
@@ -31,13 +34,30 @@ body {
     clear: both;
 }
 
+// Form
+.frm_todo_input {
+    width: 100%;
+    display: block;
+    margin: 0 10px 14px 0;
+    padding: 18px 10px;
+    min-height: 24px;
+    box-sizing: border-box;
+}
+
+// Text
+.tx_add_time {
+    font-size: 14px;
+    text-align: right;
+}
+
 // Box
 .bx_todo_add {
-    margin: 10px;
+    margin: 20px;
 }
 .bx_todo_content {
     @include border-radius(5px);
-    margin: 10px;
+    overflow-y: hidden;
+    margin: 40px 20px 20px;
     padding: 0;
     border: 1px solid #aebac5;
     list-style-type: none;
@@ -49,7 +69,7 @@ body {
         border-bottom: none;
     }
     &:nth-child(even) {
-        background-color: #fafbfc;
+        background-color: #e8ecf0;
     }
 }
 .bx_add_time {
@@ -67,7 +87,6 @@ body {
   text-align: center;
   text-decoration: none;
   text-shadow: 0 1px 1px white;
-  font-size: 14px;
   cursor: pointer;
   @include background(linear-gradient(top, #fbfbfb, #e1e1e1));
   @include border-radius(3px);
@@ -86,8 +105,10 @@ body {
 h1 {
     margin: 0;
     padding: .5em 10px;
-    font-size: 16px;
     color: #fff;
+    text-align: center;
+    font-size: 36px;
+    text-shadow: 0 1px #aaa;
     .is_design1 & {
         background-color: #fa6900;
     }
