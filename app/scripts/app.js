@@ -29,7 +29,7 @@ $('#js_add_todo').on('click', function(){
 			js_btn_edit = '<button class="btn js_btn_edit">Edit</button>',
 			js_btn_complete = '<button class="btn js_btn_complete">Complete</button>',
 			$js_input_edit = '<input type="text" class="js_input_edit" value="' + $(js_input_todo).val() + '">',
-			$js_btn_rewrite = '<button class="btn js_btn_rewrite">Rewrite</button>',
+			$js_btn_rewrite = $('<button class="btn js_btn_rewrite">Rewrite</button>'),
 			js_add_time = '<p class="tx_add_time js_add_time">' + addNewDate + '</p>',
 			todoElm = $(js_todo_item).append(js_btn_up).append(js_btn_down).append(js_tx_todo).append(js_btn_edit).append($js_input_edit).append($js_btn_rewrite).append(js_btn_complete).append(js_add_time);
 
@@ -94,12 +94,12 @@ $('#js_add_todo').on('click', function(){
 
 		//Taskテキストを編集する
 		$todoElm.find($('.js_btn_edit')).on('click', function(){
+			console.log('aaa');
 			$js_btn_rewrite.on('click', function(){
-console.log($(this));
-console.log($(this).next());
-console.log($(this).prev());
-				var text = $(this).next().val();
-				$(this).prev().html(text);
+console.log(text);
+				var text = $(this).prev().val();
+				var $todoItem = $(this).parent('.js_todo_item');
+				$todoItem.find('.js_tx_todo').html(text);
 			});
 		});
 
