@@ -2,33 +2,26 @@ $(function () {
 
 //変数設定
 var js_todo_content = $('#js_todo_content'),
-		js_input_todo = $('#js_input_todo');
+		js_input_todo = $('#js_input_todo'),
 		deleteAllBtn = $('#js_delete_all');
-
-//TODOリストが０の場合、リストを囲むul要素を非表示にする
-//Task 0とnullを統一
-if($(js_todo_content).children().length === 0) {
-	$(js_todo_content).hide();
-}
 
 //body要素にランダムでclassをつけて、見出しの色を変更
 $('#js_body').addClass('is_design' + (Math.floor(Math.random() * 5) + 1));
 
-//全削除ボタンの非アクティブ化
-$(deleteAllBtn).css('opacity', '.6').attr('disabled', true);
+//TODOリストが０の場合
+if($('.js_todo_item').length === 0) {
+	//リストを囲むul要素を非表示にする
+	$(js_todo_content).hide();
 
-//追加した要素の全削除
-$(deleteAllBtn).on('click', function(){
-	if (window.confirm("Are you sure you want to delete all items?")) {
-		$(js_todo_content).hide().find('li').remove();
-		$(deleteAllBtn).css('opacity', '.6').attr('disabled', true);
-	}
-});
+	//全削除ボタンの無効化
+	$(deleteAllBtn).css('opacity', '.6').attr('disabled', true);
+}
+
 
 //TODOの追加
 $('#js_add_todo').on('click', function(){
+	//フォームにテキストが入っていたらTodoリストを追加する
 	if($(js_input_todo).val() !== '') {
-		//フォームにテキストが入っていたらTodoリストを追加する
 
 		//要素の変数設定
 		var getTime = new Date(),
@@ -43,18 +36,31 @@ $('#js_add_todo').on('click', function(){
 			js_btn_down = '<button class="btn js_btn_down">Down</button>',
 			js_tx_todo = '<p class="js_tx_todo">' + $(js_input_todo).val() + '</p>',
 			js_btn_edit = '<button class="btn js_btn_edit">Edit</button>',
-			js_btn_delete = '<button class="btn js_btn_delete">Delete</button>',
+			js_btn_delete = '<button class="btn js_btn_delete">Complete</button>',
 			js_add_time = '<p class="tx_add_time js_add_time">' + addNewDate + '</p>',
 			todoElm = $(js_todo_item).append(js_btn_up).append(js_btn_down).append(js_tx_todo).append(js_btn_edit).append(js_btn_delete).append(js_add_time);
 
-		//TODOリストに何か要素が入っていればul要素を表示する
-		//Task 0とnullを統一
-		if($(js_todo_content).children().length !== null) {
-			$(js_todo_content).show();
-		}
-
 		//要素を生成
 		$(todoElm).prependTo(js_todo_content);
+
+		//全削除ボタンのアクティブ化
+		$(deleteAllBtn).css('opacity', '').attr('disabled', false);
+
+		//TODOリストが１つ以上あれば
+		if($('.js_todo_item').length > 0) {
+
+			//リストを囲むul要素を表示する
+			$(js_todo_content).show();
+
+			//追加した要素の全削除
+			$(deleteAllBtn).on('click', function(){
+				if (confirm('Are you sure you want to delete all items?')) {
+					$(js_todo_content).remove();
+					$(deleteAllBtn).css('opacity', '.6').attr('disabled', true);
+				}
+			});
+			debugger
+		}
 
 		//ボタンを上に移動する
 		//TASK ここを関数化したい && 一番上か下の場合はボタンを無効化 && バグってる
@@ -99,9 +105,6 @@ $('#js_add_todo').on('click', function(){
 				}
 			});
 		});
-
-		//全削除ボタンのアクティブ化
-		$(deleteAllBtn).css('opacity', '1').attr('disabled', false);
 	} else {
 		alert('Todo is empty! Please input todo.')
 	}
