@@ -25,11 +25,11 @@ $('#js_add_todo').on('click', function(){
 			js_todo_item = '<li class="js_todo_item bx_todo_item"></li>',
 			js_btn_up = '<button class="btn js_btn_up">Up</button>',
 			js_btn_down = '<button class="btn js_btn_down">Down</button>',
-			js_tx_todo = '<label class="js_tx_todo">' + $(js_input_todo).val() + '</label>',
+			js_tx_todo = '<label class="js_tx_todo bx_tx_todo">' + $(js_input_todo).val() + '</label>',
 			js_btn_edit = '<button class="btn js_btn_edit">Edit</button>',
 			js_btn_complete = '<button class="btn js_btn_complete">Complete</button>',
-			$js_input_edit = '<input type="text" class="js_input_edit" value="' + $(js_input_todo).val() + '">',
-			$js_btn_rewrite = $('<button class="btn js_btn_rewrite">Rewrite</button>'),
+			$js_input_edit = '<input type="text" class="js_input_edit bx_input_edit" value=">',
+			$js_btn_rewrite = $('<button class="btn js_btn_rewrite bx_btn_rewrite">Edit</button>'),
 			js_add_time = '<p class="tx_add_time js_add_time">' + addNewDate + '</p>',
 			todoElm = $(js_todo_item).append(js_btn_up).append(js_btn_down).append(js_tx_todo).append(js_btn_edit).append($js_input_edit).append($js_btn_rewrite).append(js_btn_complete).append(js_add_time);
 
@@ -40,40 +40,28 @@ $('#js_add_todo').on('click', function(){
 
 			//リストを囲むul要素を表示する
 			$(js_todo_content).show();
-		} else if($('.js_todo_item').length > 0) {
-
-			//ボタンを上に移動する
-			//TASK ここを関数化したい && 一番上か下の場合はボタンを無効化 && バグってる
-			if ($('.js_todo_item').not(':last-child')) {
-				//Todoリストが２個以上だったら、ボタンを有効化
-				$('.js_btn_down').on('click', function() {
-					$(this).parent().insertAfter($(this).parent().next()).animate({
-						opacity: .4
-					}, 400, 'linear', function(){
-						$(this).css({'opacity': '', 'backgroundColor': ''});
-					});
-				}).attr('disabled', false);
-			} else {
-				//Todoリストが１以下だったら、ボタンを無効化
-				$('.js_btn_down').attr('disabled', true)
-			}
-
-			//TASK ここを関数化したい
-			if ($('.js_todo_item').not(':first-child')) {
-				//Todoリストが２個以上だったら、ボタンを有効化
-				$('.js_btn_up').on('click', function() {
-					$(this).parent().insertBefore($(this).parent().prev()).animate({
-						opacity: .4
-					}, 400, 'linear', function(){
-						$(this).css({'opacity': '', 'backgroundColor': ''});
-					});
-				}).attr('disabled', false);
-			} else {
-				//Todoリストが１以下だったら、ボタンを無効化
-				$('.js_btn_up').attr('disabled', true);
-			}
-
 		}
+
+		//JSONファイルを取得
+		$.ajax({
+			url: 'http://cshooljs.dynalogue.com/api/memo/?app_name=' + $(this).prev().val(),
+			type: 'GET',
+			data: $('#shindan').serialize(),
+			timeout: 10000
+		}).done(function(data, status, xhr){
+			//成功時
+			for (var i = 0, max = data.length; i < max; i++) {
+				//こんなやり方もある
+				/*
+				json = JSON.parse(str);
+				json = JSON.stringify(json);
+				*/
+				target.prepend('<p>'+ JSON.stringify(data[i]) + '</p>');
+			}
+		}).fail(function(xhr, status, error){
+			//失敗時
+			target.html('サーバからエラーを受け取りました').css({'color': 'red', 'fontWeight': 'bold'});
+		});
 
 		//要素を生成
 		var $todoElm = $(todoElm);
@@ -92,24 +80,57 @@ $('#js_add_todo').on('click', function(){
 			});
 		});
 
-		//Taskテキストを編集する
+		//Editボタンをクリックして編集可能にする
 		$todoElm.find($('.js_btn_edit')).on('click', function(){
-			console.log('aaa');
-			$js_btn_rewrite.on('click', function(){
-console.log(text);
-				var text = $(this).prev().val();
-				var $todoItem = $(this).parent('.js_todo_item');
-				$todoItem.find('.js_tx_todo').html(text);
-			});
+			todoEdit($(this));
 		});
+		//TODOのテキストをダブルクリックして編集可能にする
+		$todoElm.find($('.js_tx_todo')).on('dblclick', function(){
+			todoEdit($(this));
+		});
+		//テキストを編集可能にするための関数
+		function todoEdit (elm) {
+			var $todoItem = elm.parent('.js_todo_item');
+			$todoItem.addClass('is_editing');
+			$js_btn_rewrite.on('click', function(){
+				var text = $(this).prev().val();
+				$todoItem.find('.js_tx_todo').html(text);
+				$todoItem.removeClass('is_editing');
+			});
+		}
+
+
+
 
 	} else {
 		alert('Todo is empty! Please input todo.')
 	}
 });
-function onClick() {
 
-}
+//ボタンを上に移動する
+//TASK ここを関数化したい && 一番上か下の場合はボタンを無効化 && バグってる
+$(js_todo_content).find('.js_btn_down').on('click', function() {
+debugger;
+console.log($(this));
+console.log($(this).parent());
+console.log($(this).parent().next());
+	$(this).parent().insertAfter($(this).parent().next()).animate({
+		opacity: .4
+	}, 400, 'linear', function(){
+		$(this).css({'opacity': '', 'backgroundColor': ''});
+	});
+});
+
+//TASK ここを関数化したい
+//Todoリストが２個以上だったら、ボタンを有効化
+$('.js_btn_up').on('click', function() {
+	$(this).parent().insertBefore($(this).parent().prev()).animate({
+		opacity: .4
+	}, 400, 'linear', function(){
+		$(this).css({'opacity': '', 'backgroundColor': ''});
+	});
+});
+
 //TODOリストが０の場合
 if($('.js_todo_item').length === 0) {
 	//リストを囲むul要素を非表示にする

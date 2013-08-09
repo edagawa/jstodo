@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html lang="ja"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
-    <title>TODOS</title>
+    <title>Todos</title>
     <meta name="description" content="JS研修課題のtodo作成">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -13,23 +13,18 @@
 </head>
 <body id="js_body">
     <div class="l_wrapper">
-        <h1>TODOS</h1>
+        <h1>Todos</h1>
         <div class="bx_todo_add clearfix">
-            <input id="js_input_todo" class="frm_todo_input" placeholder="TODO Add" autofocus>
+            <label for="js_input_name">Name</label>
+            <input id="js_input_name" class="frm_todo_input" name="appname" placeholder="Name" autofocus>
+            <label for="js_input_todo">Todo</label>
+            <input id="js_input_todo" class="frm_todo_input" name="body" placeholder="Todo" autofocus>
             <button id="js_add_todo" class="btn fl_r">Add</button>
             <button id="js_delete_all" class="btn btn_delete_all fl_l">Delete All</button>
         </div>
         <ul id="js_todo_content" class="bx_todo_content"></ul>
     </div>
     <script src="bower_components/jquery/jquery.js"></script>
-    <script src="scripts/lib/lodash.min.js"></script>
-    <script src="scripts/lib/backbone.js"></script>
-    <script src="scripts/models/todo.js"></script>
-    <script src="scripts/collections/todos.js"></script>
-    <script src="scripts/views/todos.js"></script>
-    <script src="scripts/views/app.js"></script>
-    <script src="scripts/routers/router.js"></script>
-
-     <script src="scripts/app.js"></script>
+    <script src="scripts/app.js"></script>
 </body>
 </html>

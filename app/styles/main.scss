@@ -76,6 +76,12 @@ body {
 .bx_add_time {
     display: block;
 }
+.bx_tx_todo {
+    display: block;
+    padding: 18px 0;
+    font-weight: bold;
+    font-size: 20px;
+}
 
 //Button
 .btn {
@@ -132,4 +138,31 @@ h1 {
         color: #999;
         opacity: .8;
     }
+}
+
+.is_editing {
+    .bx_input_edit {
+        display: block;
+        padding: 18px 0;
+        font-weight: 700;
+        font-size: 20px;
+    }
+    .bx_btn_rewrite {
+        display: inline-block;
+    }
+    .js_btn_edit {
+        display: none;
+    }
+    .js_tx_todo {
+        display: none;
+    }
+    .js_btn_edit {
+        display: none;
+    }
+}
+.bx_input_edit {
+    display: none;
+}
+.bx_btn_rewrite {
+    display: none;
 }
