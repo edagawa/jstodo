@@ -14,6 +14,29 @@ $('#js_add_todo').on('click', function(){
 	//フォームにテキストが入っていたらTodoリストを追加する
 	if($(js_input_todo).val() !== '') {
 
+		//JSONファイルを取得
+		var target = $('#js_todos').prepend('<div></div>');
+console.log('しりあらいず' + $('#js_todos').serialize());
+		$.ajax({
+			url: 'http://cshooljs.dynalogue.com/api/memo/',
+			type: 'POST',
+			data: $('#js_todos').serialize(),
+        // data: {
+        //   category_id: child_category_id,
+        //   page: 1,
+        //   per: 10,
+        //   sort_by: 'answer_last_updated_at',
+        //   sort_order: 'desc'
+        // },
+			timeout: 10000
+		}).done(function(data, status, xhr){
+debugger;
+			//成功時
+		}).fail(function(xhr, status, error){
+			//失敗時
+			target.html('エラーです。入力項目が空になっていないか、通信が正しく行われているかご確認いただいてから再度お試しください。').css({'color': 'red', 'fontWeight': 'bold'});
+		});
+
 		//要素の変数設定
 		var getTime = new Date(),
 			getYear = getTime.getFullYear(),
@@ -23,13 +46,13 @@ $('#js_add_todo').on('click', function(){
 			getMinutes = getTime.getMinutes(),
 			addNewDate = getYear + '年' + getMonth + '月' + getDate + '日' + getHours + '時' + getMinutes + '分',
 			js_todo_item = '<li class="js_todo_item bx_todo_item"></li>',
-			js_btn_up = '<button class="btn js_btn_up">Up</button>',
-			js_btn_down = '<button class="btn js_btn_down">Down</button>',
+			js_btn_up = '<button class="btn js_btn_up">上へ移動</button>',
+			js_btn_down = '<button class="btn js_btn_down">下へ移動</button>',
 			js_tx_todo = '<label class="js_tx_todo bx_tx_todo">' + $(js_input_todo).val() + '</label>',
-			js_btn_edit = '<button class="btn js_btn_edit">Edit</button>',
-			js_btn_complete = '<button class="btn js_btn_complete">Complete</button>',
+			js_btn_edit = '<button class="btn js_btn_edit">編集</button>',
+			js_btn_complete = '<button class="btn js_btn_complete">完了</button>',
 			$js_input_edit = '<input type="text" class="js_input_edit bx_input_edit" value=">',
-			$js_btn_rewrite = $('<button class="btn js_btn_rewrite bx_btn_rewrite">Edit</button>'),
+			$js_btn_rewrite = $('<button class="btn js_btn_rewrite bx_btn_rewrite">編集</button>'),
 			js_add_time = '<p class="tx_add_time js_add_time">' + addNewDate + '</p>',
 			todoElm = $(js_todo_item).append(js_btn_up).append(js_btn_down).append(js_tx_todo).append(js_btn_edit).append($js_input_edit).append($js_btn_rewrite).append(js_btn_complete).append(js_add_time);
 
@@ -41,27 +64,6 @@ $('#js_add_todo').on('click', function(){
 			//リストを囲むul要素を表示する
 			$(js_todo_content).show();
 		}
-
-		//JSONファイルを取得
-		$.ajax({
-			url: 'http://cshooljs.dynalogue.com/api/memo/?app_name=' + $(this).prev().val(),
-			type: 'GET',
-			data: $('#shindan').serialize(),
-			timeout: 10000
-		}).done(function(data, status, xhr){
-			//成功時
-			for (var i = 0, max = data.length; i < max; i++) {
-				//こんなやり方もある
-				/*
-				json = JSON.parse(str);
-				json = JSON.stringify(json);
-				*/
-				target.prepend('<p>'+ JSON.stringify(data[i]) + '</p>');
-			}
-		}).fail(function(xhr, status, error){
-			//失敗時
-			target.html('サーバからエラーを受け取りました').css({'color': 'red', 'fontWeight': 'bold'});
-		});
 
 		//要素を生成
 		var $todoElm = $(todoElm);

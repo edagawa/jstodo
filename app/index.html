@@ -13,16 +13,18 @@
 </head>
 <body id="js_body">
     <div class="l_wrapper">
-        <h1>Todos</h1>
-        <div class="bx_todo_add clearfix">
-            <label for="js_input_name">Name</label>
-            <input id="js_input_name" class="frm_todo_input" name="appname" placeholder="Name" autofocus>
-            <label for="js_input_todo">Todo</label>
-            <input id="js_input_todo" class="frm_todo_input" name="body" placeholder="Todo" autofocus>
-            <button id="js_add_todo" class="btn fl_r">Add</button>
-            <button id="js_delete_all" class="btn btn_delete_all fl_l">Delete All</button>
-        </div>
-        <ul id="js_todo_content" class="bx_todo_content"></ul>
+        <form id="js_todos">
+            <h1>Todos</h1>
+            <div class="bx_todo_add clearfix">
+                <label for="js_input_name">名前<span class="tx_attention">※必須項目です</span></label>
+                <input id="js_input_name" class="frm_todo_input" name="appname" placeholder="Name" autofocus>
+                <label for="js_input_todo">Todo</label>
+                <input id="js_input_todo" class="frm_todo_input" name="body" placeholder="Todo" autofocus>
+                <button id="js_add_todo" class="btn fl_r">Add</button>
+                <button id="js_delete_all" class="btn btn_delete_all fl_l">Delete All</button>
+            </div>
+            <ul id="js_todo_content" class="bx_todo_content"></ul>
+        </form>
     </div>
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="scripts/app.js"></script>
